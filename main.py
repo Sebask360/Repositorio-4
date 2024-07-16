@@ -8,15 +8,20 @@ def adivina_el_numero():
     print("Estoy pensando en un numero entre 1 y 10") #Imprime
     
     while not adivinado:
-        intento = int(input("Adivina el numero: ")) #Pide que alimine el numero de intentos
-        intentos += 1 #Incrementa el numero de intentos
+        try:
+            intento = int(input("Adivina el numero: ")) #Pide que alimine el numero de intentos
+            intentos += 1 #Incrementa el numero de intentos
         
-        if intento < numero_secreto:
-            print("Demasiado bajo, intenta de nuevo. ")
-        elif intento > numero_secreto:
-            print("Demasiado alto, intenta de nuevo. ")
-        else:
-            adivinado = True #cambia el estado del numero a encontrado. 
-            print("Felicidades, adivinaste el numero en " + str(intentos) + " intentos.")
+            if intento < numero_secreto:
+                print("Demasiado bajo, intenta de nuevo. ")
+            elif intento > numero_secreto:
+                print("Demasiado alto, intenta de nuevo. ")
+            else:
+                adivinado = True #cambia el estado del numero a encontrado. 
+                print("Felicidades, adivinaste el numero en " + str(intentos) + " intentos.")
+        except ValueError:
+            print("Ingresa un numero valido, Alcornoque!!")
+            
+
 
 adivina_el_numero()
