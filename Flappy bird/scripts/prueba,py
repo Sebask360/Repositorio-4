@@ -1,0 +1,79 @@
+import pygame
+import sys
+
+# Constantes
+ANCHO = 800
+ALTO = 600
+GRAVEDAD = 0.2
+SALTO = -5
+
+# Inicializa Pygame
+pygame.init()
+
+# Crea la pantalla
+pantalla = pygame.display.set_mode([ANCHO, ALTO])
+
+# Establece el título de la ventana
+pygame.display.set_caption('Flappy Bird')
+
+# Define los colores
+BLANCO = (255, 255, 255)
+NEGRO = (0, 0, 0)
+
+# Define la clase del pájaro
+class Pajaro:
+    def __init__(self):
+        self.x = ANCHO / 2
+        self.y = ALTO / 2
+        self.velocidad = 0
+
+    def actualizar(self):
+        self.velocidad += GRAVEDAD
+        self.y += self.velocidad
+
+    def dibujar(self):
+        pygame.draw.rect(pantalla, BLANCO, (self.x, self.y, 20, 20))
+
+# Define la clase de los tubos
+class Tubo:
+    def __init__(self, x):
+        self.x = x
+        self.altura = ALTO / 2
+        self.ancho = 50
+
+    def actualizar(self):
+        self.x -= 2
+
+    def dibujar(self):
+        pygame.draw.rect(pantalla, NEGRO, (self.x, 0, self.ancho, self.altura))
+        pygame.draw.rect(pantalla, NEGRO, (self.x, self.altura + 100, self.ancho, ALTO))
+
+# Crea el pájaro y los tubos
+pajaro = Pajaro()
+tubos = [Tubo(ANCHO), Tubo(ANCHO + 200)]
+
+# Bucle principal del juego
+while True:
+    # Maneja eventos
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        elif event.type  == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                pajaro.velocidad = SALTO
+
+    # Actualiza el pájaro y los tubos
+    pajaro.actualizar()
+    for tubo in tubos:
+        tubo.actualizar()
+
+    # Dibuja la pantalla
+    pantalla.fill(NEGRO)
+    pajaro.dibujar()
+    for tubo in tubos:
+        tubo.dibujar()
+
+    # Actualiza la pantalla
+    pygame.display.flip()
+    pygame.time.Clock().tick(60)
